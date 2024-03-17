@@ -5,11 +5,11 @@ import Images from "../../assets";
 import Atoms from "../../components/Atoms";
 import commonCSS from "../../common/commonCSS";
 
-export default function Login() {
+export default function Login({ navigation }: any) {
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <StatusBar backgroundColor={colors.white} barStyle={"dark-content"} />
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 20 }}>
         <Image
           source={Images.backIcon}
           style={{ height: 40, marginTop: 10 }}

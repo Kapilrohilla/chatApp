@@ -13,11 +13,11 @@ import colors from "../../common/colors";
 import Atoms from "../../components/Atoms";
 import Images from "../../assets";
 
-export default function Signup() {
+export default function Signup({ navigation }: any) {
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <StatusBar backgroundColor={colors.white} barStyle={"dark-content"} />
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 20 }}>
         <Image
           source={Images.backIcon}
           style={{ height: 40, marginTop: 10 }}
@@ -52,14 +52,15 @@ export default function Signup() {
         <Atoms.InputForm title={"Your email"} errorMessage={"Invalid email address"} />
         <Atoms.InputForm title={"Password"} errorMessage={"Invalid password"} />
         <Atoms.InputForm title={"Confirm Password"} errorMessage={"Password mismatched"} />
-        <Atoms.InputForm title={"Password"} errorMessage={"Invalid password"} />
-        <Atoms.InputForm title={"Confirm Password"} errorMessage={"Password mismatched"} />
+        {/* <Atoms.InputForm title={"Password"} errorMessage={"Invalid password"} />
+        <Atoms.InputForm title={"Confirm Password"} errorMessage={"Password mismatched"} /> */}
       </ScrollView>
       <Atoms.CBtn
         text="Create an account"
         width={Dimensions.get("screen").width - 20}
         bg={colors.primary}
         textColor={"#fff"}
+        onPress={() => navigation.navigate("afterRoot")}
         //   @ts-ignore
         marginHorizontal={10}
         marginBottom={20}

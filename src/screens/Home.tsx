@@ -47,13 +47,14 @@ export default function Home() {
           alignSelf="center"
         />
         <ScrollView>
-          {[1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, , 1, 1, 1, 11, , 1, 1, 1, 1].map((cardContent) => (
+          {[1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, , 1, 1, 1, 11, , 1, 1, 1, 1].map((cardContent, index) => (
             <ChatListContent
               noOfUnread={5}
               desc="How are you today?"
               title="Alex Linderson"
               image={Images.userIcon}
               lastTime="2 min ago."
+              key={index}
             />
           ))}
         </ScrollView>

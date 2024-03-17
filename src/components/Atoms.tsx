@@ -33,18 +33,23 @@ const Divider = ({ width, height = 1, ...props }: DividerP) => {
 
 const CBtn = ({
   text,
-  width,
+  width = "100%",
   bg = colors.white,
   textColor = colors.black,
+  onPress,
   ...props
 }: {
   text: string;
   width?: DimensionValue;
-  bg: ColorValue;
+  bg?: ColorValue;
+  onPress: () => any;
   textColor?: ColorValue;
 }) => {
   return (
-    <Pressable style={[{ width, backgroundColor: bg, height: 48, borderRadius: 16, ...props }, commonCSS.center]}>
+    <Pressable
+      onPress={onPress}
+      style={[{ width, backgroundColor: bg, height: 48, borderRadius: 16, ...props }, commonCSS.center]}
+    >
       <Text style={{ color: textColor, fontWeight: "600", fontSize: 16 }}>{text}</Text>
     </Pressable>
   );
@@ -94,8 +99,8 @@ type AvatarP = {
   isborder?: boolean;
   borderColor?: ColorValue;
   padding?: DimensionValue;
-  height: DimensionValue;
-  width: DimensionValue;
+  height?: DimensionValue;
+  width?: DimensionValue;
 };
 type DividerP = {
   width: DimensionValue;
