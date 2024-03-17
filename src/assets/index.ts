@@ -12,5 +12,6 @@ const Images = {
   videoIcon: require("./images/icon-video.png"),
   clipIcon: require("./images/icon-clip.png"),
   sendIcon: require("./images/icon-send.png"),
+  searchIcon: require("./images/icon-search.png"),
 };
 export default Images;

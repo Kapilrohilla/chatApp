@@ -27,8 +27,8 @@ const Avatar = ({
   );
 };
 
-const Divider = ({ width }: DividerP) => {
-  return <View style={{ height: 1, width, backgroundColor: colors.grey }} />;
+const Divider = ({ width, height = 1, ...props }: DividerP) => {
+  return <View style={{ height: height, width, backgroundColor: colors.grey, borderRadius: 99, ...props }} />;
 };
 
 const CBtn = ({
@@ -99,6 +99,7 @@ type AvatarP = {
 };
 type DividerP = {
   width: DimensionValue;
+  height?: DimensionValue;
 };
 type InputFormP = {
   title: string;
