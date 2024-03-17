@@ -51,8 +51,11 @@ export default function Onboarding() {
               gap: 20,
             },
           ]}>
-          <Atoms.Avatar icon={Images.fbIcon} />
-          <Atoms.Avatar icon={Images.googleIcon} />
+          <Atoms.Avatar icon={Images.fbIcon} borderColor={colors.absBlack} />
+          <Atoms.Avatar
+            icon={Images.googleIcon}
+            borderColor={colors.absBlack}
+          />
         </View>
         <View
           style={[
