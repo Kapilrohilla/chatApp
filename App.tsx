@@ -10,5 +10,5 @@ export default function App() {
   // return <Splash />;
   // return <Onboarding />;
   // return <Login />;
-  return <Signup />;
+  // return <Signup />;
 }

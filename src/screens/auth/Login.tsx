@@ -9,15 +9,15 @@ export default function Login() {
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <StatusBar backgroundColor={colors.white} barStyle={"dark-content"} />
+      <TouchableOpacity>
+        <Image
+          source={Images.backIcon}
+          style={{ height: 40, marginTop: 10 }}
+          resizeMethod="resize"
+          resizeMode="contain"
+        />
+      </TouchableOpacity>
       <ScrollView>
-        <TouchableOpacity>
-          <Image
-            source={Images.backIcon}
-            style={{ height: 40, marginTop: 10 }}
-            resizeMethod="resize"
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
         <Text
           style={{
             marginTop: 40,
