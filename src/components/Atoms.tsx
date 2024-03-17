@@ -2,19 +2,27 @@
 import Images from "../assets";
 import colors from "../common/colors";
 import { TouchableOpacity, Image, View, Text, Pressable, TextInput } from "react-native";
-import type { ColorValue, DimensionValue, ImageSourcePropType } from "react-native";
+import type { ColorValue, DimensionValue, ImageSourcePropType, ViewStyle } from "react-native";
 import commonCSS from "../common/commonCSS";
-const Avatar = ({ icon, borderColor, padding = 5 }: AvatarP) => {
+const Avatar = ({
+  icon,
+  borderColor = colors.black,
+  padding = 5,
+  isborder = false,
+  height = 30,
+  width = 30,
+}: AvatarP) => {
+  const containerCSS: ViewStyle = {
+    borderRadius: 999,
+  };
+  if (isborder) {
+    containerCSS.padding = padding;
+    containerCSS.borderWidth = 1;
+    containerCSS.borderColor = borderColor;
+  }
   return (
-    <TouchableOpacity
-      style={{
-        padding: padding,
-        borderWidth: 1,
-        borderColor: borderColor,
-        borderRadius: 999,
-      }}
-    >
-      <Image source={icon} style={{ height: 30, width: 30 }} resizeMethod="resize" resizeMode="contain" />
+    <TouchableOpacity style={containerCSS}>
+      <Image source={icon} style={{ height, width }} resizeMethod="resize" resizeMode="contain" />
     </TouchableOpacity>
   );
 };
@@ -83,8 +91,11 @@ export default Atoms;
 
 type AvatarP = {
   icon: ImageSourcePropType;
-  borderColor: ColorValue;
+  isborder?: boolean;
+  borderColor?: ColorValue;
   padding?: DimensionValue;
+  height: DimensionValue;
+  width: DimensionValue;
 };
 type DividerP = {
   width: DimensionValue;
