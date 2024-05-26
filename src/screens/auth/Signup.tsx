@@ -32,7 +32,7 @@ export default function Signup({navigation}: any) {
         } else return Alert.alert(res.message);
       }
       if (res.code === 200) {
-        return navigation('login');
+        return navigation.navigate('Login');
       }
     } catch (err: any) {
       console.log(err.message);

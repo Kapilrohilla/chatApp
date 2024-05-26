@@ -11,6 +11,7 @@ const Avatar = ({
   isborder = false,
   height = 30,
   width = 30,
+  ...props
 }: AvatarP) => {
   const containerCSS: ViewStyle = {
     borderRadius: 999,
@@ -21,7 +22,7 @@ const Avatar = ({
     containerCSS.borderColor = borderColor;
   }
   return (
-    <TouchableOpacity style={containerCSS}>
+    <TouchableOpacity style={containerCSS} {...props}>
       <Image source={icon} style={{height, width}} resizeMethod="resize" resizeMode="contain" />
     </TouchableOpacity>
   );

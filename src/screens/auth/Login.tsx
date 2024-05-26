@@ -25,8 +25,9 @@ export default function Login({navigation}: any) {
         return Alert.alert(res.message);
       } else {
         // console.log(res.results.token);
-        mmkv.set('token', res.results.token);
-        addLoginToken(res.results.token);
+        const tok = res.results.tokenType + ' ' + res.results.token;
+        mmkv.set('token', tok);
+        addLoginToken(tok);
         navigation.navigate('root');
       }
     } catch (err) {

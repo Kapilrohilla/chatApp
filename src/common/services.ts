@@ -14,7 +14,11 @@ async function postDataWithoutToken(data: string, url: string) {
     return json;
 }
 async function getDataWithToken(url: string, token: string) {
-    const data = await fetch(url, { method: "GET" });
+    const api = apis.baseUrl + url
+    // console.log(api);
+    const myHeader = new Headers();
+    myHeader.append("authorization", token);
+    const data = await fetch(api, { method: "GET", headers: myHeader });
     const json = data.json();
     return json;
 }

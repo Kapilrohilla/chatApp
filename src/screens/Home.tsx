@@ -5,24 +5,42 @@ import Atoms from '../components/Atoms';
 import Images from '../assets';
 import ChatListContent from '../components/ChatListContent';
 import services from '../common/services';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import apis from '../common/apis';
+import {MMKV} from 'react-native-mmkv';
+import {CommonActions, useNavigation} from '@react-navigation/native';
+import {addUserDetails} from '../redux/slices/userData';
 
 export default function Home() {
   //@ts-ignore
   const token = useSelector(state => state.token);
   const [loading, setLoading] = useState(false);
+  // @ts-ignore
+  const userData = useSelector(state => state.userData);
+  // console.log(userData);
+  const storage = new MMKV();
+  const nav = useNavigation();
+  const [chatData, setChatData] = useState([]);
+  const dispath = useDispatch();
   useEffect(() => {
     async function getInitialData() {
       setLoading(true);
       const url = apis.initialChatData;
+      const myDataUrl = apis.myDetails;
       try {
-        console.log(token);
+        const myDetails = await services.getDataWithToken(myDataUrl, token);
+        // console.log(myDetails);
+        if (!myDetails?.error) {
+          dispath(addUserDetails(myDetails.results));
+          // dispath(myDetails.results);
+        }
         const data = await services.getDataWithToken(url, token);
         if (data?.error) return Alert.alert(data.message);
-        const result = data?.results;
-        console.log(result);
+        console.log(data);
+
+        setChatData(data.results);
       } catch (err) {
+        console.log('ERRoR');
         console.log(err);
       } finally {
         setLoading(false);
@@ -32,7 +50,7 @@ export default function Home() {
   }, []);
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View style={{flex: 1, backgroundColor: colors.absBlack, paddingTop: 40}}>
+      <View style={{flex: 1, backgroundColor: colors.absBlack, paddingTop: 10}}>
         <StatusBar backgroundColor={colors.absBlack} barStyle={'light-content'} />
         {/* Topbar */}
         <View
@@ -52,7 +70,20 @@ export default function Home() {
             icon={Images.searchIcon}
           />
           <Text style={{color: colors.white, fontSize: 18, fontWeight: '600'}}>Home</Text>
-          <Atoms.Avatar height={40} width={40} icon={Images.userIcon} />
+          <Atoms.Avatar
+            height={40}
+            width={40}
+            icon={Images.userIcon}
+            // @ts-ignore
+            onPress={() => {
+              storage.delete('token');
+              const reset = CommonActions.reset({
+                index: 0,
+                routes: [{name: 'beforeRoot'}],
+              });
+              nav.dispatch(reset);
+            }}
+          />
         </View>
         <View
           style={{
@@ -70,16 +101,30 @@ export default function Home() {
             alignSelf="center"
           />
           <ScrollView>
-            {[1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, , 1, 1, 1, 11, , 1, 1, 1, 1].map((cardContent, index) => (
-              <ChatListContent
-                noOfUnread={5}
-                desc="How are you today?"
-                title="Alex Linderson"
-                image={Images.userIcon}
-                lastTime="2 min ago."
-                key={index}
-              />
-            ))}
+            {chatData.map((cardContent, index) => {
+              let otherUserName = '';
+              // @ts-ignore
+              if (cardContent.sender.id !== userData.id) {
+                // @ts-ignore
+                otherUserName = cardContent.sender.id;
+              } else {
+                // @ts-ignore
+                otherUserName = cardContent.receiver.name;
+              }
+
+              return (
+                <ChatListContent
+                  noOfUnread={5}
+                  // @ts-ignore
+                  desc={cardContent.title}
+                  // title="Alex Linderson"
+                  title={otherUserName}
+                  image={Images.userIcon}
+                  lastTime="2 min ago."
+                  key={index}
+                />
+              );
+            })}
           </ScrollView>
         </View>
       </View>
