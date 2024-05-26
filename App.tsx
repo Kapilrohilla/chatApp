@@ -12,26 +12,21 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Splash from './src/screens/Splash';
 import BeforeLogin from './src/components/navigators/BeforeLogin';
 import AfterLogin from './src/components/navigators/AfterLogin';
+import {Provider, useSelector} from 'react-redux';
+import {store} from './src/redux/store';
+import Root from './src/components/navigators/Root';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   // const [token, setToken] = useState(false);
-  const token = true;
+  // console.log(token);
+  // const token = false;
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="splash"
-          component={Splash}
-          options={{headerShown: false, animationTypeForReplace: 'push'}}
-        />
-        {token ? (
-          <Stack.Screen name="root" component={AfterLogin} options={{headerShown: false}} />
-        ) : (
-          <Stack.Screen name="beforeRoot" component={BeforeLogin} options={{headerShown: false}} />
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Root />
+      </NavigationContainer>
+    </Provider>
   );
 }

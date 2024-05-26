@@ -1,9 +1,9 @@
 // import {Image} from 'react-native-animatable';
-import Images from "../assets";
-import colors from "../common/colors";
-import { TouchableOpacity, Image, View, Text, Pressable, TextInput } from "react-native";
-import type { ColorValue, DimensionValue, ImageSourcePropType, ViewStyle } from "react-native";
-import commonCSS from "../common/commonCSS";
+import Images from '../assets';
+import colors from '../common/colors';
+import {TouchableOpacity, Image, View, Text, Pressable, TextInput, ActivityIndicator} from 'react-native';
+import type {ColorValue, DimensionValue, ImageSourcePropType, KeyboardTypeOptions, ViewStyle} from 'react-native';
+import commonCSS from '../common/commonCSS';
 const Avatar = ({
   icon,
   borderColor = colors.black,
@@ -22,58 +22,69 @@ const Avatar = ({
   }
   return (
     <TouchableOpacity style={containerCSS}>
-      <Image source={icon} style={{ height, width }} resizeMethod="resize" resizeMode="contain" />
+      <Image source={icon} style={{height, width}} resizeMethod="resize" resizeMode="contain" />
     </TouchableOpacity>
   );
 };
 
-const Divider = ({ width, height = 1, ...props }: DividerP) => {
-  return <View style={{ height: height, width, backgroundColor: colors.grey, borderRadius: 99, ...props }} />;
+const Divider = ({width, height = 1, ...props}: DividerP) => {
+  return <View style={{height: height, width, backgroundColor: colors.grey, borderRadius: 99, ...props}} />;
 };
 
 const CBtn = ({
   text,
-  width = "100%",
+  width = '100%',
   bg = colors.white,
   textColor = colors.black,
+  loading,
   onPress,
   ...props
-}: {
-  text: string;
-  width?: DimensionValue;
-  bg?: ColorValue;
-  onPress: () => any;
-  textColor?: ColorValue;
-}) => {
+}: CBtnP) => {
   return (
     <Pressable
       onPress={onPress}
-      style={[{ width, backgroundColor: bg, height: 48, borderRadius: 16, ...props }, commonCSS.center]}
-    >
-      <Text style={{ color: textColor, fontWeight: "600", fontSize: 16 }}>{text}</Text>
+      style={[{width, backgroundColor: bg, height: 48, borderRadius: 16, ...props}, commonCSS.center]}>
+      {loading ? (
+        <ActivityIndicator size={'small'} color={textColor} />
+      ) : (
+        <Text style={{color: textColor, fontWeight: '600', fontSize: 16}}>{text}</Text>
+      )}
     </Pressable>
   );
 };
-const InputForm = ({ title, paddingHorizontal = 20, errorMessage, isPassword = false, ...props }: InputFormP) => {
+const InputForm = ({
+  title,
+  paddingHorizontal = 20,
+  errorMessage,
+  state,
+  handleState,
+  keyboardType = 'default',
+  isPassword = false,
+  ...props
+}: InputFormP) => {
   const isError = false;
   return (
-    <View style={{ paddingHorizontal, ...props }}>
+    <View style={{paddingHorizontal, ...props}}>
       <Text
         style={{
           color: !isError ? colors.primary : colors.red,
           fontSize: 16,
-          fontWeight: "500",
+          fontWeight: '500',
           marginBottom: 5,
-        }}
-      >
+        }}>
         {title}
       </Text>
       <TextInput
         secureTextEntry={isPassword}
+        keyboardType={keyboardType}
+        //@ts-ignore
+        value={state!}
+        onChangeText={txt => handleState(txt)}
         style={[
           {
             borderBottomWidth: 1,
             borderBottomColor: isError ? colors.red : colors.grey,
+            color: '#000',
           },
           commonCSS.removeMP,
         ]}
@@ -82,16 +93,15 @@ const InputForm = ({ title, paddingHorizontal = 20, errorMessage, isPassword = f
         style={{
           fontSize: 12,
           color: colors.red,
-          textAlign: "right",
+          textAlign: 'right',
           marginTop: 4,
-        }}
-      >
+        }}>
         {isError && errorMessage}
       </Text>
     </View>
   );
 };
-const Atoms = { Avatar, Divider, CBtn, InputForm };
+const Atoms = {Avatar, Divider, CBtn, InputForm};
 export default Atoms;
 
 type AvatarP = {
@@ -110,5 +120,17 @@ type InputFormP = {
   title: string;
   paddingHorizontal?: DimensionValue;
   errorMessage: string;
+  keyboardType?: KeyboardTypeOptions;
   isPassword?: boolean;
+  state: unknown;
+  // handleState: () => void;
+  handleState: React.Dispatch<React.SetStateAction<string>>;
+};
+type CBtnP = {
+  text: string;
+  width?: DimensionValue;
+  bg?: ColorValue;
+  loading: boolean;
+  onPress: () => any;
+  textColor?: ColorValue;
 };
